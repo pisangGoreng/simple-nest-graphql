@@ -3,6 +3,7 @@ import { AppModule } from './app.module';
 import { Transport, TcpOptions } from '@nestjs/microservices';
 
 import { ConfigService } from './services/config/config.service';
+import { ValidationPipe } from '@nestjs/common';
 
 // async function bootstrap() {
 //   console.log('USER PORT ', process.env.USER_SERVICE_PORT);
@@ -22,6 +23,8 @@ import { ConfigService } from './services/config/config.service';
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   console.log('USER PORT ', new ConfigService().get('port'));
+
+  app.useGlobalPipes(new ValidationPipe());
 
   await app.listen(new ConfigService().get('port'));
 }
